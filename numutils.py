@@ -83,7 +83,7 @@ def num_to_words(num):
 		if len(words)>0 and tmp_num>0:
 			words.append('and')
 
-		# if greater than 19, add the twenties, thirties etc. word
+		# convert twenties, thirties etc. word
 		if tmp_num > 19:
 			num_ten = int( math.floor( tmp_num/10 ) * 10 )
 			words.append( numwords[2][ num_ten/10 ] )
@@ -94,7 +94,7 @@ def num_to_words(num):
 			words.append( numwords[1][tmp_num] )
 
 		# add the ones word
-		if tmp_num<9 and tmp_num>0:
+		if tmp_num<=9 and tmp_num>0:
 			words.append( numwords[0][tmp_num] )
 
 		# add the thousands, millions word
@@ -106,7 +106,7 @@ def num_to_words(num):
 	return " ".join(words)
 
 def main():
-	print( num_to_words(1203450) )
+	print( num_to_words(29) )
 
 if __name__ == '__main__':
 	main()
