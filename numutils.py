@@ -1,3 +1,5 @@
+import math
+
 
 numwords = [
 	[
@@ -56,46 +58,55 @@ def num_to_words(num):
 	words = []
 	pref_count = 0;
 
+
 	# group numbers into 3
 	groups = format(num, ",").split(",")
 	num_groups = len(groups)
-	print(groups)
 
+	# iterate through each group
 	for g in groups:
-		tmp = 0
+		num_hundred = 0
+		tmp_num = int(g)
+		num_groups = num_groups - 1
 
 		# if this group is zero, append empty word
 		if int(g)==0:
-			words.append('')
 			continue
 
-		num_hundred = int( g[0] + '00' )
-		print(num_hundred)
-		if num_hundred >= 100:
+		# if hundreds, add the hundred word
+		if int(g) >= 100:
+			num_hundred = int( g[0] + '00' )
 			words.append( numwords[0][int(g[0])] + ' hundred' )
-			tmp = int(g) - num_hundred
+			tmp_num = int(g) - num_hundred
 
-		if tmp==0:
-			continue
+		# add and if number is less than a hundred and preceding another word
+		if len(words)>0 and tmp_num>0:
+			words.append('and')
 
-		if tmp > 19:
-			words.append( numwords[2][int(g[1])] )
+		# if greater than 19, add the twenties, thirties etc. word
+		if tmp_num > 19:
+			num_ten = int( math.floor( tmp_num/10 ) * 10 )
+			words.append( numwords[2][ num_ten/10 ] )
+			tmp_num = tmp_num - num_ten
 
-		if tmp <= 19 and tmp > 9:
-			words.append( numwords[1][int(g[1]+g[2])] )
+		# if less than 19 but greater than 9, add the teens word
+		if tmp_num<=19 and tmp_num>9:
+			words.append( numwords[1][tmp_num] )
 
-		if tmp <= 9:
-			words.append( numwords[0][int( tmp )] )
+		# add the ones word
+		if tmp_num<9 and tmp_num>0:
+			words.append( numwords[0][tmp_num] )
 
-		if num_groups > 1:
-			words.append(numprefs[num_groups-2])
-			num_groups = num_groups - 1
+		# add the thousands, millions word
+		if num_groups >= 1:
+			# print( 'num_groups: ' + str(tmp_num) )
+			words.append(numprefs[num_groups-1])
 
 
 	print(words)
 
 def main():
-	num_to_words(5095001)
+	num_to_words(1203450)
 
 if __name__ == '__main__':
 	main()
