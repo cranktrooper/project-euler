@@ -103,10 +103,10 @@ def num_to_words(num):
 			words.append(numprefs[num_groups-1])
 
 
-	print(words)
+	return " ".join(words)
 
 def main():
-	num_to_words(1203450)
+	print( num_to_words(1203450) )
 
 if __name__ == '__main__':
 	main()
